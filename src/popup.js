@@ -161,7 +161,6 @@ with this program; if not, write to the Free Software Foundation, Inc.,
             const username = t.getAttribute("data-user");
             const nickname = t.getAttribute("data-nick");
             const arr = USERNAMES_MAP_SORTED.get(username);
-
             const idx = arr.indexOf(nickname);
 
             arr.splice(idx, 1);
