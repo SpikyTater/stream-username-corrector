@@ -79,19 +79,9 @@ const MANIFEST = {
   ],
 };
 
-const CHROME_MANIFEST_ADDENDUM = {
-  /*background: {
-    service_worker: "a.js"
-  }*/
-};
+const CHROME_MANIFEST_ADDENDUM = {};
 
-const FIREFOX_MANIFEST_ADDENDUM = {
-  /*background: {
-    scripts: [
-      "a.js"
-    ]
-  }*/
-};
+const FIREFOX_MANIFEST_ADDENDUM = {};
 
 const CHROME_MANIFEST = Object.assign({}, MANIFEST, CHROME_MANIFEST_ADDENDUM);
 const FIREFOX_MANIFEST = Object.assign({}, MANIFEST, FIREFOX_MANIFEST_ADDENDUM);
@@ -109,7 +99,7 @@ const FIREFOX_MANIFEST_PATH = `${BUILD_DIR}firefox_manifest.json`;
  * @returns {string}
  */
 function GetPathFromBuildName(build_name) {
-  return `${RELEASES_DIR}${pkg.name}_${pkg.version}_${build_name}.zip`;
+  return `${RELEASES_DIR}${pkg.name}_${build_name}.zip`;
 }
 
 /**
