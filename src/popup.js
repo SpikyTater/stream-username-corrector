@@ -112,6 +112,10 @@ with this program; if not, write to the Free Software Foundation, Inc.,
         poly.storage.local.set(o);
       }
 
+      function DeleteUser(username) {
+        poly.storage.local.remove(username);
+      }
+
       /**
        * @param {string} username 
        * @param {HTMLInputElement} input 
@@ -171,7 +175,7 @@ with this program; if not, write to the Free Software Foundation, Inc.,
             USERNAMES_MAP_SORTED.delete(username);
 
             t.parentElement.parentElement.remove();
-            SaveUser(username);
+            DeleteUser(username);
             return;
           }
           case "user-nicks-btn-add": {
