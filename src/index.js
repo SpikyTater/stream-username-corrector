@@ -80,7 +80,13 @@ const MANIFEST = {
 };
 
 const CHROME_MANIFEST_ADDENDUM = {};
-const FIREFOX_MANIFEST_ADDENDUM = {};
+const FIREFOX_MANIFEST_ADDENDUM = {
+  browser_specific_settings: {
+    gecko: {
+      id: "{e4eaa5a3-7665-4b91-8882-81355d3a0258}"
+    }
+  }
+};
 
 const CHROME_MANIFEST = Object.assign({}, MANIFEST, CHROME_MANIFEST_ADDENDUM);
 const FIREFOX_MANIFEST = Object.assign({}, MANIFEST, FIREFOX_MANIFEST_ADDENDUM);
