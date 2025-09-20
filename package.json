@@ -1,0 +1,31 @@
+{
+  "name": "stream-username-corrector",
+  "version": "0.0.1",
+  "description": "Browser extension to change displayed usernames on Twitch",
+  "main": "src/index.js",
+  "scripts": {
+    "build": "rollup --c --failAfterWarnings --no-stdin && cleancss -O2 specialComments:1 -o ./build/popup.css ./src/popup.css && html-minifier-terser --collapse-whitespace --collapse-boolean-attributes --collapse-inline-tag-whitespace --remove-attribute-quotes --remove-empty-attributes --remove-redundant-attributes --remove-tag-whitespace --remove-style-link-type-attributes --sort-attributes -o ./build/popup.html ./src/popup.html && node src/index.js build",
+    "build:dev": "rollup --c --failAfterWarnings --no-stdin --config_debug && cleancss -O0 -o ./build/popup.css ./src/popup.css && node src/index.js build:dev",
+    "clean": "node src/index.js clean",
+    "dist:chrome": "npm run build && node src/index.js dist:chrome"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/SpikyTater/stream-username-corrector.git"
+  },
+  "author": "SpikyTater",
+  "license": "SEE LICENSE IN LICENSE.TXT",
+  "bugs": {
+    "url": "https://github.com/SpikyTater/stream-username-corrector/issues"
+  },
+  "homepage": "https://github.com/SpikyTater/stream-username-corrector",
+  "type": "module",
+  "devDependencies": {
+    "@rollup/plugin-node-resolve": "^16.0.1",
+    "@rollup/plugin-terser": "^0.4.4",
+    "clean-css-cli": "^5.6.3",
+    "html-minifier-terser": "^7.2.0",
+    "rollup": "^4.52.0",
+    "zip-lib": "^1.1.2"
+  }
+}

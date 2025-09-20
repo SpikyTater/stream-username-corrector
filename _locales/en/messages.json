@@ -1,0 +1,8 @@
+{
+  "ext_name": {
+    "message": "Stream Username Corrector"
+  },
+  "ext_desc": {
+    "message": "Browser extension to change displayed usernames on Twitch."
+  }
+}
