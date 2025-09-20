@@ -21,6 +21,8 @@ import { Zip, Unzip } from "zip-lib";
 
 const pkg = JSON.parse(readFileSync("package.json", "utf8"));
 
+const EXTENSION_UUID = "e4eaa5a3-7665-4b91-8882-81355d3a0258";
+
 const MANIFEST = {
   name: "__MSG_ext_name__",
   version: pkg.version,
@@ -49,6 +51,7 @@ const MANIFEST = {
   host_permissions: [
     "*://*.twitch.tv/*",
   ],
+  homepage_url: "https://github.com/SpikyTater/stream-username-corrector",
   content_scripts: [
     {
       run_at: "document_start",
@@ -83,7 +86,8 @@ const CHROME_MANIFEST_ADDENDUM = {};
 const FIREFOX_MANIFEST_ADDENDUM = {
   browser_specific_settings: {
     gecko: {
-      id: "{e4eaa5a3-7665-4b91-8882-81355d3a0258}"
+      id: `{${EXTENSION_UUID}}`,
+      update_url: "https://github.com/SpikyTater/stream-username-corrector/releases/download/v0.0.1/firefox_updates.json"
     }
   }
 };
@@ -95,6 +99,7 @@ const DIST_DIR = "./dist";
 const BUILD_DIR = "./build/";
 const RELEASES_DIR = `${BUILD_DIR}releases/`;
 const LOCALES_DIR = `${BUILD_DIR}_locales/`;
+const TO_DEPLOY_DIR = `${BUILD_DIR}to_deploy/`;
 
 const CHROME_MANIFEST_PATH = `${BUILD_DIR}chrome_manifest.json`;
 const FIREFOX_MANIFEST_PATH = `${BUILD_DIR}firefox_manifest.json`;
@@ -151,6 +156,10 @@ function CreateBuildDirs() {
     mkdirSync(LOCALES_DIR, { recursive: true });
   }
 
+  if (!existsSync(TO_DEPLOY_DIR)) {
+    mkdirSync(TO_DEPLOY_DIR, { recursive: true });
+  }
+
   if (!existsSync(RELEASES_DIR)) {
     console.error("Couldn't create build directory.");
     process.exitCode = 1;
@@ -159,6 +168,12 @@ function CreateBuildDirs() {
 
   if (!existsSync(LOCALES_DIR)) {
     console.error("Couldn't create build/locales directory.");
+    process.exitCode = 1;
+    return true;
+  }
+
+  if (!existsSync(TO_DEPLOY_DIR)) {
+    console.error("Couldn't create to_deploy directory.");
     process.exitCode = 1;
     return true;
   }
@@ -201,6 +216,18 @@ function CreateManifests(is_dev_build) {
   writeFileSync(FIREFOX_MANIFEST_PATH, FIREFOX_MANIFEST_STR);
 }
 
+function PopulateToDeploy() {
+  try {
+    const firefox_update_json_str = readFileSync("./firefox_updates.json", { encoding: "utf8" });
+    const firefox_update_o = JSON.parse(firefox_update_json_str);
+    writeFileSync(`${TO_DEPLOY_DIR}firefox_updates.json`, JSON.stringify(firefox_update_o, null, 0));
+    return false;
+  } catch (e) {
+    console.error(e);
+    return true;
+  }
+}
+
 /**
  * @param {boolean} is_dev_build 
  */
@@ -211,6 +238,11 @@ function Build(is_dev_build) {
 
   CreateManifests(is_dev_build);
   CreateLocales(is_dev_build);
+
+  if (PopulateToDeploy()) {
+    process.exitCode = 1;
+    return;
+  }
 
   CreateReleaseZip(is_dev_build, "chrome", CHROME_MANIFEST_PATH);
   CreateReleaseZip(is_dev_build, "firefox", FIREFOX_MANIFEST_PATH);
