@@ -87,7 +87,7 @@ const FIREFOX_MANIFEST_ADDENDUM = {
   browser_specific_settings: {
     gecko: {
       id: `{${EXTENSION_UUID}}`,
-      update_url: "https://github.com/SpikyTater/stream-username-corrector/releases/download/v0.0.1/firefox_updates.json"
+      update_url: "https://spikytater.github.io/stream-username-corrector/firefox_updates.json"
     }
   }
 };
