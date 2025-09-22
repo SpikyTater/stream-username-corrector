@@ -114,9 +114,10 @@ with this program; if not, write to the Free Software Foundation, Inc.,
         configurable: true,
         enumerable: true,
         get: () => {
-          return function (...e) {
-            NicknamesMessageHandler(...e);
-            descriptor.get()(...e)
+          return function (...args) {
+            // must be called before 7tv's one
+            NicknamesMessageHandler(...args);
+            descriptor.get()(...args)
           }
         },
         set: descriptor.set
@@ -176,11 +177,10 @@ with this program; if not, write to the Free Software Foundation, Inc.,
         handle_error("UNKNOWN MESSAGE:", { data });
         return;
     }
-
   }
 
   window.addEventListener("message", OnMessage);
   setTimeout(() => {
     SendMessageToSurface(0);
-  }, 5000);
+  }, 7000);
 })();
