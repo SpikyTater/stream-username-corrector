@@ -17,6 +17,7 @@ with this program; if not, write to the Free Software Foundation, Inc.,
 
 (async () => {
   const USERNAMES_MAP = new Map();
+  const HELPER_SYMBOL = Symbol("larry");
 
   let show_real_username = false;
   let is_message_handler_unset = true;
@@ -89,6 +90,45 @@ with this program; if not, write to the Free Software Foundation, Inc.,
     }
   }
 
+  function Is7tvEnabled() {
+    if (document.getElementsByClassName("seventv-chat-list").length) {
+      return true;
+    }
+
+    const symbols = Object.getOwnPropertySymbols(message_handler_api);
+
+    if (symbols.length && symbols.some(el => el.description.startsWith("seventv"))) {
+      return true;
+    }
+
+    return false;
+  }
+
+  function ActivateNicknamesHandles() {
+    if (Is7tvEnabled()) {
+      // 7tv extension enabled
+      const handle_message = "handleMessage", descriptor = Object.getOwnPropertyDescriptor(message_handler_api, handle_message);
+      message_handler_api[HELPER_SYMBOL] = descriptor;
+
+      const new_descriptor = {
+        configurable: true,
+        enumerable: true,
+        get: () => {
+          return function (...e) {
+            NicknamesMessageHandler(...e);
+            descriptor.get()(...e)
+          }
+        },
+        set: descriptor.set
+      };
+
+      Object.defineProperty(message_handler_api, handle_message, new_descriptor)
+    } else {
+      // 7tv extension not enabled
+      message_handler_api.addMessageHandler(NicknamesMessageHandler);
+    }
+  }
+
   function SendMessageToSurface(...data) {
     const message = [123456, ...data]
     window.postMessage(message);
@@ -123,7 +163,7 @@ with this program; if not, write to the Free Software Foundation, Inc.,
 
         if (is_message_handler_unset) {
           is_message_handler_unset = false;
-          message_handler_api.addMessageHandler(NicknamesMessageHandler);
+          ActivateNicknamesHandles();
         }
         return;
       }
@@ -139,5 +179,7 @@ with this program; if not, write to the Free Software Foundation, Inc.,
   }
 
   window.addEventListener("message", OnMessage);
-  SendMessageToSurface(0);
+  setTimeout(() => {
+    SendMessageToSurface(0);
+  }, 5000);
 })();

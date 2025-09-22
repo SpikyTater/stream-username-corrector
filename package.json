@@ -1,6 +1,6 @@
 {
   "name": "stream-username-corrector",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "Browser extension to change displayed usernames on Twitch",
   "private": true,
   "main": "src/index.js",

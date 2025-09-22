@@ -39,7 +39,7 @@ const MANIFEST = {
     "128": "d.png"
   },
   action: {
-    "default_icon": {
+    default_icon: {
       "16": "a.png",
       "32": "b.png",
       "48": "c.png",
