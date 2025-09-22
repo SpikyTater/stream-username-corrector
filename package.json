@@ -1,7 +1,8 @@
 {
   "name": "stream-username-corrector",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Browser extension to change displayed usernames on Twitch",
+  "private": true,
   "main": "src/index.js",
   "scripts": {
     "build": "rollup --c --failAfterWarnings --no-stdin && cleancss -O2 specialComments:1 -o ./build/popup.css ./src/popup.css && html-minifier-terser --collapse-whitespace --collapse-boolean-attributes --collapse-inline-tag-whitespace --remove-attribute-quotes --remove-empty-attributes --remove-redundant-attributes --remove-tag-whitespace --remove-style-link-type-attributes --sort-attributes -o ./build/popup.html ./src/popup.html && node src/index.js build",

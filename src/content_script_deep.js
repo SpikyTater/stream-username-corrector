@@ -59,11 +59,21 @@ with this program; if not, write to the Free Software Foundation, Inc.,
   }
 
   function NicknamesMessageHandler(e) {
-    if (!e || e.type !== 0 || !Object.hasOwn(e, "user")) {
+    if (!e) {
       return;
     }
+    
+    let user;
+    switch (e.type) {
+      case 0: // normal message
+        user = e.user;
+        break;
+      case 49: // announcement
+        user = e.message.user;
+        break;
+    }
 
-    const { user } = e, curr_username = user.isIntl ? user.userLogin : user.userDisplayName;
+    const curr_username = user.isIntl ? user.userLogin : user.userDisplayName;
 
     const nicknames = USERNAMES_MAP.get(curr_username.toLowerCase());
     if (!Array.isArray(nicknames) || 0 === nicknames.length) {

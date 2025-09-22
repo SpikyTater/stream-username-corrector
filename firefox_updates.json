@@ -5,6 +5,10 @@
         {
           "version": "0.0.1",
           "update_link": "https://github.com/SpikyTater/stream-username-corrector/releases/download/v0.0.1/stream-username-corrector_firefox.xpi"
+        },
+        {
+          "version": "0.0.2",
+          "update_link": "https://github.com/SpikyTater/stream-username-corrector/releases/download/v0.0.2/stream-username-corrector_firefox.xpi"
         }
       ]
     }
