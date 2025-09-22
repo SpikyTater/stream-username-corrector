@@ -62,7 +62,7 @@ with this program; if not, write to the Free Software Foundation, Inc.,
     if (!e) {
       return;
     }
-    
+
     let user;
     switch (e.type) {
       case 0: // normal message
@@ -71,6 +71,7 @@ with this program; if not, write to the Free Software Foundation, Inc.,
       case 49: // announcement
         user = e.message.user;
         break;
+      default: return;
     }
 
     const curr_username = user.isIntl ? user.userLogin : user.userDisplayName;
