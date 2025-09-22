@@ -16,8 +16,6 @@ with this program; if not, write to the Free Software Foundation, Inc.,
 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.*/
 
 (async () => {
-  // TODO: send message to deep on settings change
-
   const poly = globalThis.browser || globalThis.chrome;
 
   function SendMessageToDeep(...data) {
@@ -34,8 +32,15 @@ with this program; if not, write to the Free Software Foundation, Inc.,
 
     let n = 0;
     for (const k in o) {
+      const v = o[k];
       n++;
-      o[k] = JSON.parse(is_not_change ? o[k] : o[k].newValue);
+      if (is_not_change) {
+        o[k] = JSON.parse(v);
+      } else if (Object.hasOwn(v, "newValue")) {
+        o[k] = JSON.parse(v.newValue);
+      } else {
+        o[k] = [];
+      }
     }
 
     if (n) {
@@ -61,7 +66,7 @@ with this program; if not, write to the Free Software Foundation, Inc.,
           ParseStorageObject(result, true);
           poly.storage.local.onChanged.addListener(ParseStorageObject);
         });
-        
+
         return;
       default:
         console.error("UNKNOWN MESSAGE:", { data });

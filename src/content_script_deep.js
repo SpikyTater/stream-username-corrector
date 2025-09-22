@@ -155,6 +155,7 @@ with this program; if not, write to the Free Software Foundation, Inc.,
           }
 
           if (!v.length) {
+            USERNAMES_MAP.delete(k.toLowerCase());
             continue;
           }
 
